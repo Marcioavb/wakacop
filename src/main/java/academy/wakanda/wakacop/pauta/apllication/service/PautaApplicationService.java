@@ -23,3 +23,4 @@ public class PautaApplicationService implements PautaService {
         return new PautaCadastradaResponse(pauta);
     }
 }
+
