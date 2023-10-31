@@ -7,7 +7,6 @@ import lombok.ToString;
 @Getter
 @ToString
 public class VotoRequest {
-
     private String cpfAssociado;
     private OpcaoVotos opcao;
 
