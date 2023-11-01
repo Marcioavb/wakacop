@@ -25,17 +25,21 @@ public class VotoPauta {
     @JoinColumn(name = "sessao_votacao_id")
     private SessaoVotacao sessaoVotacao;
     private String cpfAssociado;
-    private OpcaoVotos opcaoVotos;
+    private OpcaoVoto opcaoVoto;
     private LocalDateTime momentoVoto;
 
     public VotoPauta(SessaoVotacao sessaoVotacao, VotoRequest votoRequest) {
         this.sessaoVotacao = sessaoVotacao;
         this.cpfAssociado = votoRequest.getCpfAssociado();
-        this.opcaoVotos = votoRequest.getOpcao();
+        this.opcaoVoto = votoRequest.getOpcao();
         this.momentoVoto = LocalDateTime.now();
     }
 
     public UUID getIdSessao() {
         return this.sessaoVotacao.getId();
+    }
+
+    public boolean opcaoIgual(OpcaoVoto opcao) {
+        return this.opcaoVoto.equals(opcao);
     }
 }
