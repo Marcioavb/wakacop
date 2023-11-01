@@ -1,6 +1,6 @@
 package academy.wakanda.wakacop.sessaoVotacao.application.service;
 
-import academy.wakanda.wakacop.pauta.apllication.repository.PautaRepository;
+import academy.wakanda.wakacop.associado.application.service.AssociadoService;
 import academy.wakanda.wakacop.pauta.apllication.service.PautaService;
 import academy.wakanda.wakacop.pauta.domain.Pauta;
 import academy.wakanda.wakacop.sessaoVotacao.application.api.*;
@@ -19,33 +19,34 @@ import java.util.UUID;
 public class SessaoVotacaoApplicationService implements SessaoVotacaoService {
     private final SessaoVotacaoRepository sessaoVotacaoRepository;
     private final PautaService pautaService;
+    private final AssociadoService associadoService;
 
     @Override
     public SessaoArbeturaResponse abreSessao(SessaoAberturaRequest sessaoArbeturaRequest) {
-        log.info("[inicia] SessaoVotacaoApplicationService - abreSessao");
+        log.debug("[inicia] SessaoVotacaoApplicationService - abreSessao");
         Pauta pauta = pautaService.getPautaPorId(sessaoArbeturaRequest.getIdPauta());
         SessaoVotacao sessaoVotacao = sessaoVotacaoRepository.salva(new SessaoVotacao(sessaoArbeturaRequest, pauta));
-        log.info("[finaliza] SessaoVotacaoApplicationService - abreSessao");
+        log.debug("[finaliza] SessaoVotacaoApplicationService - abreSessao");
         return new SessaoArbeturaResponse(sessaoVotacao);
     }
 
     @Override
     public VotoResponse recebeVoto(UUID idSessao, VotoRequest novoVoto) {
-        log.info("[inicia] SessaoVotacaoApplicationService - recebeVoto");
+        log.debug("[inicia] SessaoVotacaoApplicationService - recebeVoto");
         SessaoVotacao sessao = sessaoVotacaoRepository.buscaPorId(idSessao);
-        VotoPauta voto = sessao.recebeVoto(novoVoto);
+        VotoPauta voto = sessao.recebeVoto(novoVoto, associadoService);
         sessaoVotacaoRepository.salva(sessao);
-        log.info("[finaliza] SessaoVotacaoApplicationService - recebeVoto");
+        log.debug("[finaliza] SessaoVotacaoApplicationService - recebeVoto");
         return new VotoResponse(voto);
     }
 
     @Override
     public ResultadoSessaoResponse obtemRecebe(UUID idSessao) {
-        log.info("[inicia] SessaoVotacaoApplicationService - obtemRecebe");
+        log.debug("[inicia] SessaoVotacaoApplicationService - obtemRecebe");
         SessaoVotacao sessao = sessaoVotacaoRepository.buscaPorId(idSessao);
         ResultadoSessaoResponse resultado = sessao.obtemResultado();
         sessaoVotacaoRepository.salva(sessao);
-        log.info("[finaliza] SessaoVotacaoApplicationService - obtemRecebe");
+        log.debug("[finaliza] SessaoVotacaoApplicationService - obtemRecebe");
         return resultado;
     }
 }
