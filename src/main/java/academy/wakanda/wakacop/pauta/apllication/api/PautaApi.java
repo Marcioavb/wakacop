@@ -9,5 +9,7 @@ public interface PautaApi {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-        PautaCadastradaResponse cadastraPauta(@RequestBody novaPautaRequest novaPauta);
+    PautaCadastradaResponse cadastraPauta(@RequestBody novaPautaRequest novaPauta);
 }
+
+
