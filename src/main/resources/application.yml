@@ -5,6 +5,7 @@ server:
 logging:
   level:
     academy.wakanda: ${LOG_LEVEL:DEBUG}
+
 spring:
   datasource:
     driverClassName: org.postgresql.Driver
@@ -29,3 +30,8 @@ spring:
       properties:
         hibernate:
           default_schema: wakacop
+
+springdoc:
+  swagger-ui:
+    path: /public/swagger
+
